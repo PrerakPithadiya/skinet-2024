@@ -21,8 +21,6 @@ public class OrdersController(ICartService cartService, IUnitOfWork unit) : Base
 
         if (cart == null) return BadRequest("Cart not found");
 
-        if (cart.PaymentIntentId == null) return BadRequest("No payment intent for this order");
-
         var items = new List<OrderItem>();
 
         foreach (var item in cart.Items)
@@ -59,7 +57,7 @@ public class OrdersController(ICartService cartService, IUnitOfWork unit) : Base
             Subtotal = items.Sum(x => x.Price * x.Quantity),
             Discount = orderDto.Discount,
             PaymentSummary = orderDto.PaymentSummary,
-            PaymentIntentId = cart.PaymentIntentId,
+            PaymentIntentId = "DISABLED", // Mark as disabled
             BuyerEmail = email
         };
 
